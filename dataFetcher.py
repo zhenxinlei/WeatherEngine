@@ -1,12 +1,41 @@
 from pprint import pprint
 import requests
-r = requests.get('https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22nome%2C%20ak%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys')
-#pprint(r.json())
 
-json = r.json()
+matrix = []
+
+for  ind in range(0,10,1):
+    la = 40+0.1*ind
+    lo_array = []
+    print(la)
+
+    for lo in range(-73, -70, 1):
+        la_ = str(la+0.1)
+        lo_ = str(lo +1)
+        #print('http://api.openweathermap.org/data/2.5/box/city?bbox='+str(lo)+','+str(la)+','+lo_+','+la_+',10&appid=0b74213a07c89ca3278264e0f9618c92')
+        r = requests.get('http://api.openweathermap.org/data/2.5/box/city?bbox='+str(lo)+','+str(la)+','+lo_+','+la_+',10&appid=0b74213a07c89ca3278264e0f9618c92')
+
+        json = r.json()
+        print("333333")
+        pprint(json)
+
+        print("!!!!")
+        temp = json['list']
+
+        #[0]['main']['temp']
+        #pprint(temp)
+        lo_array.append(temp)
+        # for list in json['list']:
+        #     print(list['name'])
+        #     pprint(list['main']['temp'])
+        #     print('----------------')
+    matrix.append(lo_array)
+
+print(matrix)
+
+
 
 print('########ma9##################')
-pprint(json['query']['results']['channel']['item']['condition']['temp'])
+#pprint(json['query']['results']['channel']['item']['condition']['temp'])
 
 
 
